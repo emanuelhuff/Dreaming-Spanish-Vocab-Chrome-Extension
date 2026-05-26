@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Dreaming Spanish Vocab",
+  "version": "1.0",
+  "permissions": ["activeTab", "tabs", "storage"],
+  "host_permissions": [
+    "https://www.dreamingspanish.com/*",
+    "https://app.dreaming.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon128.png"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.dreamingspanish.com/*",
+        "https://app.dreaming.com/*"
+      ],
+      "js": ["content.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+        "resources": ["es-en.xml"],
+        "matches": ["<all_urls>"]
+    }
+  ],
+  "icons": {
+    "128": "icon128.png"
+    }
+}

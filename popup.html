@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 560px;
+      margin: 0;
+      padding: 14px;
+      font-family: Arial, sans-serif;
+      background: #07111f;
+      color: #f5f7fb;
+    }
+
+    #getWords {
+      width: 100%;
+      padding: 10px 12px;
+      border: none;
+      border-radius: 10px;
+      background: #FF594A;
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin: 14px 0;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      padding: 7px 10px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.06);
+      color: #dbe4ff;
+      font-weight: 600;
+    }
+
+    .tab.active {
+      background: #181e2a;
+      color: white;
+      border-color: #FF594A;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .word {
+      position: relative;
+      padding: 8px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      cursor: pointer;
+      background: rgba(255,255,255,0.07);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .word:hover {
+      border-color: #FF594A;
+      background: rgba(255,255,255,0.11);
+    }
+
+    .actions {
+      display: flex;
+      gap: 5px;
+      margin-top: 2px;
+    }
+
+    .action-btn {
+      border: none;
+      border-radius: 7px;
+      color: white;
+      cursor: pointer;
+      width: 24px;
+      height: 22px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .learning {
+      background: #f59e0b;
+    }
+
+    .green {
+      background: #22c55e;
+    }
+
+    .red {
+      background: #FF594A;
+    }
+  </style>
+</head>
+
+<body>
+  <button id="getWords">Get Vocab</button>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="current">
+    This Video (<span id="currentCount">0</span>)
+    </button>
+    <button class="tab" data-tab="learning">
+  Learning (<span id="learningCount">0</span>)
+    </button>
+    <button class="tab" data-tab="known">
+  Known (<span id="knownCount">0</span>)
+    </button>
+    <button class="tab" data-tab="trash">
+  Trash (<span id="trashCount">0</span>)
+    </button>
+  </div>
+
+  <div id="current" class="tab-content active"></div>
+  <div id="learning" class="tab-content"></div>
+  <div id="known" class="tab-content"></div>
+  <div id="trash" class="tab-content"></div>
+
+  <script src="popup.js"></script>
+</body>
+</html>
