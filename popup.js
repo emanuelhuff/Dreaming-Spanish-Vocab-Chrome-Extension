@@ -7,6 +7,8 @@ const learningCount = document.getElementById("learningCount");
 const knownCount = document.getElementById("knownCount");
 const trashCount = document.getElementById("trashCount");
 const currentCount = document.getElementById("currentCount");
+const exportLearningButton = document.getElementById("exportLearning");
+const exportStatus = document.getElementById("exportStatus");
 
 loadLearningWords();
 loadKnownWords();
@@ -27,6 +29,51 @@ chrome.storage.local.get(["savedWords"], result => {
     renderWords(result.savedWords);
   }
 });
+
+
+exportLearningButton.addEventListener("click", () => {
+  chrome.storage.local.get(["learningWords"], result => {
+    const words = [...new Set(result.learningWords || [])]
+      .sort((a, b) => a.localeCompare(b));
+
+    if (words.length === 0) {
+      showExportStatus("Add words to Learning before exporting.");
+      return;
+    }
+
+    const rows = [
+      ["Spanish", "English"],
+      ...words.map(word => [word, ""])
+    ];
+
+    const csv = "\uFEFF" + rows
+      .map(row => row.map(escapeCsvField).join(","))
+      .join("\r\n");
+
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8" });
+    const downloadUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 10);
+
+    link.href = downloadUrl;
+    link.download = `dreaming-spanish-learning-${date}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    URL.revokeObjectURL(downloadUrl);
+
+    showExportStatus(`Exported ${words.length} learning word${words.length === 1 ? "" : "s"}.`);
+  });
+});
+
+function escapeCsvField(value) {
+  const text = String(value ?? "");
+  return `"${text.replace(/"/g, '""')}"`;
+}
+
+function showExportStatus(message) {
+  exportStatus.textContent = message;
+}
 
 document.getElementById("getWords").addEventListener("click", async () => {
   const [tab] = await chrome.tabs.query({
@@ -190,6 +237,7 @@ function loadLearningWords() {
   chrome.storage.local.get(["learningWords"], result => {
     const words = result.learningWords || [];
     learningCount.textContent = words.length;
+    exportLearningButton.disabled = words.length === 0;
 
     renderWordList(words, learningOutput, "learningWords");
   });

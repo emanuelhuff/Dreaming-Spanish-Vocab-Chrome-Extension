@@ -17,15 +17,40 @@
       color: #f5f7fb;
     }
 
-    #getWords {
-      width: 100%;
+    .top-actions {
+      display: flex;
+      gap: 8px;
+    }
+
+    .top-actions button {
+      flex: 1;
       padding: 10px 12px;
       border: none;
       border-radius: 10px;
-      background: #FF594A;
       color: white;
       cursor: pointer;
       font-weight: bold;
+    }
+
+    #getWords {
+      background: #FF594A;
+    }
+
+    #exportLearning {
+      background: #2563eb;
+    }
+
+    #exportLearning:disabled {
+      cursor: not-allowed;
+      opacity: 0.55;
+    }
+
+    #exportStatus {
+      min-height: 18px;
+      margin-top: 8px;
+      color: #a9b7d0;
+      font-size: 12px;
+      text-align: center;
     }
 
     .tabs {
@@ -112,7 +137,11 @@
 </head>
 
 <body>
-  <button id="getWords">Get Vocab</button>
+  <div class="top-actions">
+    <button id="getWords">Get Vocab</button>
+    <button id="exportLearning" disabled>Export Learning CSV</button>
+  </div>
+  <div id="exportStatus" role="status" aria-live="polite"></div>
 
   <div class="tabs">
     <button class="tab active" data-tab="current">
